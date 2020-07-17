@@ -1,0 +1,39 @@
+import shutil
+
+configfile:
+    "config.yaml"
+
+# read config file to get run-specific informatoin
+
+INPUT=config['fastqs']
+#print(INPUT)
+
+SAMPLES, = glob_wildcards(INPUT + "/{id}.fastq")
+#print(SAMPLES)
+
+RESULTS = config['results_loc']
+print("Output will be found in the following directory:", RESULTS)
+
+onstart:
+	print("The samples used in this analysis are:"),
+	print(SAMPLES),
+	print("Running the denovo transcriptome assembly pipeline") 
+
+
+rule all:
+    input:
+        expand(RESULTS + "/fastq_trimmed/{sample}.trimmed.fastq", sample=SAMPLES),
+        expand(RESULTS + "/assemblies/{sample}_trinity.Trinity.fasta", sample=SAMPLES),
+        expand(RESULTS + "/quantification/{sample}.ok", sample=SAMPLES),
+        expand(RESULTS + "/matrices/{sample}.ok", sample=SAMPLES),
+        expand(RESULTS + "/assemblies/{sample}.oneiso.Trinity.fasta", sample=SAMPLES)
+	
+include:        "rules_unpaired/fastp.smk"
+include:        "rules_unpaired/trinity.smk"
+include:        "rules_unpaired/abundance.smk"
+include:        "rules_unpaired/make_matrix.smk"
+include:        "rules_unpaired/filter.smk"
+
+onsuccess:
+	print("Transcriptome assembly finished!")
+	shutil.rmtree(".snakemake")

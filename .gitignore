@@ -1,0 +1,5 @@
+results*
+test*
+.snakemake*
+fastqs/*.fq
+fastqs/*.fastq
