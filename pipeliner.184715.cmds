@@ -1,0 +1,1 @@
+/home/progs/TransDecoder-TransDecoder-v5.5.0/util/compute_base_probs.pl /datahome/oenothera/transcripts/assemblies/snakemake-trinity/results/assemblies/UASK.oneiso.Trinity.fasta 0 > /datahome/oenothera/transcripts/assemblies/snakemake-trinity/results/transdecoder/UASK/base_freqs.dat
