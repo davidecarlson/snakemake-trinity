@@ -3,3 +3,4 @@ test*
 .snakemake*
 fastqs/*.fq
 fastqs/*.fastq
+pipeliner*
